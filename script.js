@@ -230,8 +230,8 @@ if (toggleAuthModeBtn) {
     toggleAuthModeBtn.addEventListener('click', (e) => {
         e.preventDefault();
         isSignUpMode = !isSignUpMode;
-        if (authModalTitle) authModalTitle.textContent = isSignUpMode ? "Criar Conta Mística" : "Acessar Conta Mística";
-        if (submitAuthBtn) submitAuthBtn.textContent = isSignUpMode ? "Cadastrar" : "Entrar";
+        authModalTitle.textContent = isSignUpMode ? "Criar Conta Mística" : "Acessar Conta Mística";
+        submitAuthBtn.textContent = isSignUpMode ? "Cadastrar" : "Entrar";
         toggleAuthModeBtn.textContent = isSignUpMode ? "Já tem conta? Faça Login" : "Não tem conta? Cadastre-se";
     });
 }
@@ -288,7 +288,6 @@ async function saveDefaultUserData(user) {
     await setDoc(doc(db, "users", user.uid), defaultData);
 }
 
-// Escutador de Mudança de Estado de Autenticação
 onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     if (user) {
@@ -296,7 +295,6 @@ onAuthStateChanged(auth, async (user) => {
         await loadJournalCloud(user.uid);
     } else {
         loadUserProfileLocal();
-        loadJournalLocal();
     }
 });
 
@@ -407,7 +405,7 @@ if (editProfileForm) {
             name: newName,
             handle: newHandle.startsWith('@') ? newHandle : `@${newHandle}`,
             bio: newBio,
-            avatar: profileImg ? profileImg.src : 'img/perfil.jpeg',
+            avatar: profileImg ? profileImg.src : '',
             music: musicArr,
             reading: readingArr,
             movies: moviesArr
@@ -415,12 +413,11 @@ if (editProfileForm) {
 
         if (currentUser) {
             await setDoc(doc(db, "users", currentUser.uid), profileData, { merge: true });
-            await loadUserDataCloud(currentUser.uid); // Atualiza na hora na tela
         } else {
             localStorage.setItem('user_profile_data', JSON.stringify(profileData));
-            loadUserProfileLocal();
         }
 
+        loadUserProfileLocal();
         closeProfileModal();
         showToast("Perfil atualizado com sucesso!");
     });
@@ -428,7 +425,7 @@ if (editProfileForm) {
 
 
 /* ==========================================================================
-   7. DIÁRIO MÍSTICO (LOCAL & NUVEM)
+   7. DIÁRIO MÍSTICO NA NUVEM
    ========================================================================== */
 let journalEntries = [];
 let activePageIndex = 0;
@@ -449,16 +446,6 @@ async function loadJournalCloud(uid) {
     } else {
         journalEntries = [{ title: "Minha Primeira Leitura", content: "Senti uma conexão mágica hoje..." }];
         await setDoc(journalRef, { entries: journalEntries });
-    }
-    loadJournalEntry(0);
-}
-
-function loadJournalLocal() {
-    const savedJournal = JSON.parse(localStorage.getItem('mystic_journal'));
-    if (savedJournal && savedJournal.length > 0) {
-        journalEntries = savedJournal;
-    } else {
-        journalEntries = [{ title: "Minha Primeira Leitura", content: "Senti uma conexão mágica hoje..." }];
     }
     loadJournalEntry(0);
 }
@@ -487,14 +474,9 @@ function loadJournalEntry(index) {
 
 if (btnSaveJournal) {
     btnSaveJournal.addEventListener('click', async () => {
-        if (journalEntries.length === 0) {
-            journalEntries.push({ title: "", content: "" });
-            activePageIndex = 0;
-        }
-
         journalEntries[activePageIndex] = {
-            title: journalTitleInput ? journalTitleInput.value.trim() || "Página Sem Título" : "Página Sem Título",
-            content: journalContentTextarea ? journalContentTextarea.value.trim() : ""
+            title: journalTitleInput.value.trim() || "Página Sem Título",
+            content: journalContentTextarea.value.trim() || ""
         };
 
         if (currentUser) {
