@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Buenard:wght@400..700&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Merienda:wght@300..900&family=Mystery+Quest&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Mystical World</title>
+</head>
+
+<body>
+    <header>
+        <i class="fa-solid fa-star estrela-logo"></i>
+
+        <nav class="navbar">
+            <a href="#home">Início</a>
+            <a href="#bc">Baralho Cigano</a>
+            <a href="#conta">Conta</a>
+            <a href="#diario">Diário</a>
+            <a href="#subliminais">Subliminais</a>
+        </nav>
+
+        <!-- Botão de alternância do Modo Escuro / Claro -->
+        <i class="fa-solid fa-moon mode" id="themeToggle" title="Alternar Tema"></i>
+
+        <!-- Caixas de Pesquisa -->
+        <div class="search-box">
+            <input type="text" class="search-txt" id="searchInput" placeholder="Pesquisar no site...">
+            <button type="button" class="search-btn" id="searchBtn" title="Pesquisar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar / Menu Lateral -->
+        <nav class="sidebar">
+            <div class="logo-menu">
+                <h2 class="logo-p">Mystical</h2>
+                <i class="fa-solid fa-bars toggle-btn" id="sidebarToggle"></i>
+            </div>
+
+            <ul class="list">
+                <li class="list-item active">
+                    <a href="#conta">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="link-name" style="--i:1;">Conta</span>
+                    </a>
+                </li>
+                <!-- Botão de Acesso Rápido para Editar Perfil -->
+                <li class="list-item" id="sidebarEditProfileBtn">
+                    <a href="javascript:void(0);">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span class="link-name" style="--i:2;">Editar Perfil</span>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="#diario">
+                        <i class="fa-solid fa-pen-fancy"></i>
+                        <span class="link-name" style="--i:3;">Diário</span>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="#afirmacoes-leves">
+                        <i class="fa-solid fa-martini-glass"></i>
+                        <span class="link-name" style="--i:4;">Afirmações Leves</span>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="#afirmacoes-toxicas">
+                        <i class="fa-solid fa-key"></i>
+                        <span class="link-name" style="--i:5;">Afirmações Tóxicas</span>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="#subliminais">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span class="link-name" style="--i:6;">Subliminais</span>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="#livros-ng">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="link-name" style="--i:7;">Livros N.G</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- SEÇÃO HOME -->
+    <section class="home" id="home">
+        <div class="content">
+            <h1 class="hero-title">
+                <span class="top-text">Boas-vindas ao meu</span>
+                <span class="magic-text">Mundo Místico</span>
+            </h1>
+            <p class="subtitle-phrase">✨ Um refúgio sagrado para a alma, intuição e sabedoria ✨</p>
+
+            <p>Este é um espaço sagrado para ser completamente você mesmo, um lugar de constante aprendizado e herança. Criei este site para servir como o diário de bordo de todos os meus anos de aprendizado no maravilhoso mundo místico.</p>
+            <a href="#bc" class="btn"><span></span>Descobrir mais!</a>
+
+            <div class="sci">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            </div>
+        </div>
+
+        <div class="image">
+            <img src="img/morcegin.png" alt="Morcego" class="morcegin">
+            <img src="img/gatinho.png" alt="Gatinho" class="gatinho">
+        </div>
+    </section>
+
+    <!-- SEÇÃO BARALHO CIGANO -->
+    <section class="bc" id="bc">
+        <div class="section-header">
+            <h2 class="title">Baralho <span class="magic-text">Cigano</span></h2>
+            <p class="subtitle-phrase">✦ As 36 cartas de sabedoria, mistério e caminhos ✦</p>
+        </div>
+
+        <div class="row history-card">
+            <div class="container-image">
+                <img src="img/cigana.jpeg" alt="Carta Baralho Cigano">
+            </div>
+            <div class="content">
+                <h3 class="sub-title">A Jornada do Petit Lenormand</h3>
+                <p>Ao contrário do que muitos pensam, o sistema do Baralho Cigano não nasceu com os ciganos. Sua origem técnica remonta ao final do século XVIII na Alemanha, quando em 1798 foi criado <em>"O Jogo da Esperança"</em> — um jogo composto por 36 cartas ilustradas com figuras do cotidiano.</p>
+                <p>Paralelamente, em Paris, a renomada cartomante <strong>Madame Lenormand (1772–1843)</strong> tornou-se uma lenda ao atender personalidades da Revolução Francesa. Após sua morte, os editores uniram a estrutura das 36 cartas do jogo alemão à fama de Lenormand, consagrando o famoso formato <strong>Petit Lenormand</strong>.</p>
+                <a href="#meus-baralhos" class="bc-btn"><span></span>Explorar Meus Baralhos</a>
+            </div>
+        </div>
+
+        <div class="bc-extra-section" id="meus-baralhos">
+            <h3 class="section-subtitle"><i class="fa-solid fa-layer-group"></i> Meus Baralhos & Onde Comprei</h3>
+            <div class="cards-grid">
+                <div class="bc-card">
+                    <img src="img/lenormand classic.avif" alt="Baralho Classico">
+                    <h4>Baralho Cigano Lenormand Clássico</h4>
+                    <p>Comprado na Amazon.</p>
+                    <a href="https://www.amazon.com.br/Baralho-Cigano-Lenormand-Cl%C3%A1ssico-Cont%C3%A9m/dp/6587905536/ref=sr_1_1" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+                <div class="bc-card">
+                    <img src="img/lenormand vintage.webp" alt="Baralho Místico">
+                    <h4>Baralho Cigano - Lenormand Vintage</h4>
+                    <p>Comprado na Shopee.</p>
+                    <a href="https://shopee.com.br/Baralho-Cigano-Lenormand-Vintage-i.219962376.23594940461" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+                <div class="bc-card">
+                    <img src="img/Baralho Cigano Tarot Lenormand Ed. Paris Vintage 1.webp" alt="Baralho Paris Vintage">
+                    <h4>Baralho Cigano Tarot Lenormand Ed. Paris Vintage</h4>
+                    <p>Comprado na Shopee.</p>
+                    <a href="https://shopee.com.br/Baralho-Cigano-Tarot-Lenormand-Ed.-Paris-Vintage-Idioma-Portugu%C3%AAs-40-cartas-livreto-caixa-i.1235059397.21198314085" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+                <div class="bc-card">
+                    <img src="img/Cigano Tarot Lenormand Ed. Amanhecer.webp" alt="Baralho Amanhecer">
+                    <h4>Cigano Tarot Lenormand Ed. Amanhecer</h4>
+                    <p>Comprado na Shopee.</p>
+                    <a href="https://shopee.com.br/Cigano-Tarot-Lenormand-Ed.-Amanhecer-Idioma-Portugu%C3%AAs-40-cartas-livreto-caixa-i.1235059397.23493134237" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+                <div class="bc-card">
+                    <img src="img/andre.avif" alt="Baralho Andre Montovani">
+                    <h4>Baralho Cigano - Tradição, teoria e prática</h4>
+                    <p>Comprado na Amazon.</p>
+                    <a href="https://www.amazon.com.br/Baralho-Cigano-Tradi%C3%A7%C3%A3o-Teoria-Pr%C3%A1tica/dp/6587236138" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+                <div class="bc-card">
+                    <img src="img/aura.jpg" alt="Aura Lenormand">
+                    <h4>Aura Lenormand</h4>
+                    <p>Comprado no site próprio da criadora do deck.</p>
+                    <a href="https://anacalderon.art/product/aura-lenormand/" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+                <div class="bc-card">
+                    <img src="img/collage.png" alt="Collage Lenormand">
+                    <h4>Collage Lenormand</h4>
+                    <p>Comprado no site próprio da criadora do deck.</p>
+                    <a href="https://anacalderon.art/product/collage-lenormand/" target="_blank" class="card-link">Ver Loja <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="bc-extra-section">
+            <h3 class="section-subtitle"><i class="fa-solid fa-book-open"></i> Livros para Estudo</h3>
+            <ul class="books-list">
+                <li>
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <div>
+                        <strong>Baralho Cigano - Tradição, teoria e prática</strong> — <em>Autor: André Mantovani</em>
+                        <p>Ótimo para entender as combinações e métodos de tiragem prática.</p>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <div>
+                        <strong>O Livro Completo do Baralho Petit Lenormand</strong> — <em>Autora: Odete Lopes Mazza</em>
+                        <p>Explora o significado profundo das 36 cartas e a Mesa Real.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bc-extra-section">
+            <h3 class="section-subtitle"><i class="fa-solid fa-graduation-cap"></i> Canais e Mentores Recomendados</h3>
+            <div class="mentors-grid">
+                <div class="mentor-card">
+                    <i class="fa-brands fa-youtube mentor-icon"></i>
+                    <h4>Yasmin Oraculista</h4>
+                    <p>Conjunto dos significados das cartas, exemplificações de combinações separadas por área da vida, métodos de tiragem — para iniciantes e avançados.</p>
+                    <a href="https://www.youtube.com/@yasminoraculista" target="_blank" class="mentor-link">Assistir no YouTube</a>
+                </div>
+
+                <div class="mentor-card">
+                    <i class="fa-brands fa-youtube mentor-icon"></i>
+                    <h4>Puka Saraiva</h4>
+                    <p>Conjunto dos significados das cartas, métodos de tiragem tanto para iniciantes quanto explicação detalhada dos naipes.</p>
+                    <a href="https://www.youtube.com/@pukasaraiva" target="_blank" class="mentor-link">Assistir no YouTube</a>
+                </div>
+
+                <div class="mentor-card">
+                    <i class="fa-brands fa-youtube mentor-icon"></i>
+                    <h4>VAMOS FALAR DE BARALHO CIGANO</h4>
+                    <p>Conjunto dos significados das cartas, métodos de tiragem para iniciantes e avançados, explicações extras e aula de Mesa Real.</p>
+                    <a href="https://www.youtube.com/@vamosfalardebaralhocigano" target="_blank" class="mentor-link">Assistir no YouTube</a>
+                </div>
+
+                <div class="mentor-card">
+                    <i class="fa-brands fa-youtube mentor-icon"></i>
+                    <h4>Gilberto Mello</h4>
+                    <p>Conjunto dos significados das cartas, métodos de tiragem, explicação dos naipes, contagem de tempo nas cartas e Mesa Real com playlists organizadas.</p>
+                    <a href="https://www.youtube.com/@gilbertomello" target="_blank" class="mentor-link">Assistir no YouTube</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO SUA CONTA -->
+    <section class="page-section" id="conta">
+        <div class="section-header">
+            <h2 class="title">Sua <span class="magic-text">Conta</span></h2>
+            <p class="subtitle-phrase">✨ Gerencie seu perfil e suas coleções místicas ✨</p>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-card">
+                <div class="avatar-wrapper">
+                    <img src="img/gatinho.png" alt="Foto de Perfil" id="profileImg">
+                    <button class="edit-avatar-btn" id="changeAvatarBtn" title="Alterar Foto"><i class="fa-solid fa-camera"></i></button>
+                    <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+                </div>
+                <h3 id="profileName">Júlia Mística</h3>
+                <span class="user-handle" id="profileHandle">@juliamistica</span>
+                <p class="profile-bio" id="profileBio">Buscadora dos mistérios do universo, apaixonada por tarot, leis herméticas e manifestação consciente. 🔮✨</p>
+                <button class="btn-edit-profile" id="openEditModalBtn"><i class="fa-solid fa-pen-to-square"></i> Editar Perfil</button>
+            </div>
+
+            <div class="profile-grid">
+                <div class="info-block">
+                    <h3><i class="fa-solid fa-music"></i> Músicas Favoritas</h3>
+                    <ul class="favorites-list" id="musicList">
+                        <li>
+                            <i class="fa-solid fa-heart"></i>
+                            <div><strong>Fleetwood Mac</strong> — <em>Rhiannon</em></div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-heart"></i>
+                            <div><strong>Florence + The Machine</strong> — <em>Cosmic Love</em></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-block">
+                    <h3><i class="fa-solid fa-book-open"></i> Lendo no Momento</h3>
+                    <ul class="favorites-list" id="readingList">
+                        <li>
+                            <i class="fa-solid fa-bookmark"></i>
+                            <div><strong>O Sentimento é o Segredo</strong> — <em>Neville Goddard</em></div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-bookmark"></i>
+                            <div><strong>O Kybalion</strong> — <em>Três Iniciados</em></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-block">
+                    <h3><i class="fa-solid fa-film"></i> Filmes & Séries Favoritos</h3>
+                    <ul class="favorites-list" id="moviesList">
+                        <li>
+                            <i class="fa-solid fa-star"></i>
+                            <div><strong>Da Magia à Sedução</strong> — <em>Filme</em></div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-star"></i>
+                            <div><strong>O Mundo Sombrio de Sabrina</strong> — <em>Série</em></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE EDIÇÃO DE PERFIL -->
+    <div class="profile-modal-overlay" id="profileModalOverlay">
+        <div class="profile-modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-pen"></i> Editar Perfil</h3>
+                <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+            </div>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label for="editName">Nome:</label>
+                    <input type="text" id="editName" placeholder="Seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="editHandle">Usuário (@):</label>
+                    <input type="text" id="editHandle" placeholder="@seuusuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBio">Bio / Biografia:</label>
+                    <textarea id="editBio" rows="3" placeholder="Sua biografia mística..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editMusic">Músicas Favoritas (uma por linha: Artista - Música):</label>
+                    <textarea id="editMusic" rows="3" placeholder="Fleetwood Mac - Rhiannon"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editReading">Lendo no Momento (uma por linha: Livro - Autor):</label>
+                    <textarea id="editReading" rows="3" placeholder="O Kybalion - Três Iniciados"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editMovies">Filmes/Séries (uma por linha: Título - Tipo):</label>
+                    <textarea id="editMovies" rows="3" placeholder="Da Magia à Sedução - Filme"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancelModalBtn">Cancelar</button>
+                    <button type="submit" class="btn-save-profile">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SEÇÃO DIÁRIO MÍSTICO -->
+    <section class="page-section" id="diario">
+        <div class="section-header">
+            <h2 class="title">Diário <span class="magic-text">Místico</span></h2>
+            <p class="subtitle-phrase">🖋️ Registre suas leituras de cartas, sonhos e reflexões diárias 🖋️</p>
+        </div>
+
+        <div class="journal-wrapper">
+            <div class="journal-sidebar">
+                <div class="journal-sidebar-header">
+                    <h3>Páginas</h3>
+                    <button class="btn-new-page" id="addJournalPageBtn" title="Nova Página"><i class="fa-solid fa-plus"></i> Nova</button>
+                </div>
+                <ul class="journal-pages-list" id="journalPagesList">
+                    <!-- Páginas geradas dinamicamente via JS -->
+                </ul>
+            </div>
+
+            <div class="journal-editor">
+                <input type="text" class="journal-title-input" id="journalTitle" placeholder="Título da sua reflexão...">
+                <div class="journal-meta">
+                    <span id="journalDate"><i class="fa-regular fa-calendar"></i> Data atual</span>
+                </div>
+                <textarea class="journal-content-textarea" id="journalContent" placeholder="Escreva aqui suas intenções, tiragens do dia, sentimentos ou percepções místicas..."></textarea>
+                <div class="journal-actions">
+                    <button class="btn-save-journal" id="saveJournalBtn"><i class="fa-solid fa-floppy-disk"></i> Salvar Entrada</button>
+                    <button class="btn-delete-journal" id="deleteJournalBtn"><i class="fa-solid fa-trash"></i> Excluir</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO AFIRMAÇÕES LEVES -->
+    <section class="page-section" id="afirmacoes-leves">
+        <div class="section-header">
+            <h2 class="title">Afirmações <span class="magic-text">Leves</span></h2>
+            <p class="subtitle-phrase">🌸 Mensagens de paz, harmonia, gratidão e autocuidado 🌸</p>
+        </div>
+
+        <div class="affirmations-container">
+            <div class="affirmation-card">
+                <div class="week-badge"><i class="fa-solid fa-arrows-rotate"></i> Afirmações da Semana</div>
+                <p class="affirmation-intro">Suas 5 afirmações mudam automaticamente para alinhar sua vibração:</p>
+                <ol class="affirmations-list" id="lightAffirmationsList">
+                    <li>"Eu me abro para receber toda a paz e abundância que o universo tem a me oferecer."</li>
+                    <li>"Confio no tempo de todas as coisas e permaneço no momento presente."</li>
+                    <li>"Minha intuição é clara, segura e sempre me guia pelos melhores caminhos."</li>
+                    <li>"Eu mereço amor, gentileza e todas as bênçãos que chegam até mim."</li>
+                    <li>"Sinto gratidão por cada pequeno progresso da minha jornada."</li>
+                </ol>
+                <button class="btn-refresh-affirmations" id="nextAffirmationSetBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Novas Afirmações</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO AFIRMAÇÕES TÓXICAS -->
+    <section class="page-section" id="afirmacoes-toxicas">
+        <div class="section-header">
+            <h2 class="title">Afirmações <span class="magic-text">Tóxicas</span></h2>
+            <p class="subtitle-phrase">🗝️ Desconstruindo crenças limitantes e trabalhando o Shadow Work 🗝️</p>
+        </div>
+
+        <div class="affirmations-container">
+            <div class="affirmation-card shadow-card">
+                <p class="affirmation-intro">Transforme pensamentos de escassez e dúvida em libertação consciente:</p>
+                <ul class="affirmations-list shadow-list">
+                    <li><span class="bad">❌ "Nunca nada dá certo para mim."</span> <br> ➔ <strong class="good">✨ "Tudo está se alinhando ao meu favor, mesmo quando não vejo."</strong></li>
+                    <li><span class="bad">❌ "Preciso controlar tudo para dar certo."</span> <br> ➔ <strong class="good">✨ "Eu solto a necessidade de controle e confio no fluxo natural."</strong></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO ÁUDIOS SUBLIMINAIS -->
+    <section class="page-section" id="subliminais">
+        <div class="section-header">
+            <h2 class="title">Áudios <span class="magic-text">Subliminais</span></h2>
+            <p class="subtitle-phrase">🎧 Frequências sonoras e reprogramação mental dos canais de confiança 🎧</p>
+        </div>
+
+        <div class="subliminals-grid">
+            <div class="subliminal-category">
+                <h3><i class="fa-solid fa-heart"></i> Amor Próprio</h3>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Subliminal Amor Próprio" allowfullscreen></iframe>
+                        <h4>Subliminal Amor Próprio & Magnetismo</h4>
+                        <p>Canal de Confiança 1</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subliminal-category">
+                <h3><i class="fa-solid fa-sparkles"></i> Beleza & Autoestima</h3>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Subliminal Beleza" allowfullscreen></iframe>
+                        <h4>Frequência Radiant Beauty</h4>
+                        <p>Canal de Confiança 2</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subliminal-category">
+                <h3><i class="fa-solid fa-coins"></i> Prosperidade</h3>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Subliminal Prosperidade" allowfullscreen></iframe>
+                        <h4>Atração de Oportunidades & Abundância</h4>
+                        <p>Canal de Confiança 3</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subliminal-category">
+                <h3><i class="fa-solid fa-infinity"></i> Abundância Ilimitada</h3>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Subliminal Abundancia" allowfullscreen></iframe>
+                        <h4>Frequência 528Hz - Milagres e Abundância</h4>
+                        <p>Canal de Confiança 4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- SEÇÃO NEVILLE GODDARD -->
+<section class="page-section" id="livros-ng">
+    <div class="section-header">
+        <h2 class="title">Neville <span class="magic-text">Goddard</span></h2>
+        <p class="subtitle-phrase">👁️ "A imaginação cria a realidade" — Estudos e a Lei da Suposição 👁️</p>
+    </div>
+
+    <div class="ng-container">
+
+        <!-- Livros Recomendados -->
+        <div class="bc-extra-section">
+            <h3 class="section-subtitle"><i class="fa-solid fa-book-open-reader"></i> Livros Recomendados de Neville Goddard</h3>
+            <div class="cards-grid">
+                <div class="bc-card">
+                    <img src="img/o sentimento é o segredo.jpg" alt="O Sentimento é o Segredo">
+                    <h4>O Sentimento é o Segredo (1944)</h4>
+                    <p>O livro mais famoso e direto sobre como o subconsciente opera através da emoção.</p>
+                </div>
+                <div class="bc-card">
+                    <img src="img/o poder da consciencia.webp" alt="O Poder da Consciência">
+                    <h4>O Poder da Consciência (1952)</h4>
+                    <p>Estudo aprofundado da suposição e do descanso na realização do desejo.</p>
+                </div>
+                <div class="bc-card">
+                    <img src="img/o desperta da imaginação.jpg" alt="O Despertar da Imaginação">
+                    <h4>O Despertar da Imaginação (1954)</h4>
+                    <p>Um convite para explorar a profundidade da mente humana e sua capacidade de moldar a realidade.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canais no YouTube -->
+        <div class="bc-extra-section">
+            <h3 class="section-subtitle"><i class="fa-solid fa-chalkboard-user"></i> Canais no YouTube sobre Neville Goddard</h3>
+            <div class="mentors-grid">
+                <div class="mentor-card">
+                    <i class="fa-brands fa-youtube mentor-icon"></i>
+                    <h4>Neville Goddard Brasil</h4>
+                    <p>Traduções e áudios originais das palestras de Neville narradas em português.</p>
+                    <a href="https://www.youtube.com/@NevilleGoddardOficial/videos" target="_blank" class="mentor-link">Ver Canal no YouTube</a>
+                </div>
+                <div class="mentor-card">
+                    <i class="fa-brands fa-youtube mentor-icon"></i>
+                    <h4>Consciência e Manifestação</h4>
+                    <p>Estudos práticos sobre a Lei da Suposição, vivência no fim e técnicas SATS.</p>
+                    <a href="https://www.youtube.com/@luanaricco/featured" target="_blank" class="mentor-link">Ver Canal no YouTube</a>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Fechamento da .ng-container -->
+</section> <!-- Fechamento da section -->
+
+    <!-- NOTIFICAÇÃO TOAST -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMessage">Perfil atualizado com sucesso!</span>
+    </div>
+
+    <footer>
+        <p>Feito por Júlia Bezerra</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
