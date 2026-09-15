@@ -1,0 +1,2789 @@
+/* ==========================================================================
+   1. VARIÁVEIS E RESET GLOBAL
+   ========================================================================== */
+:root {
+    /* Modo Claro (Rosa #f48b9a e Vinho #7a2238) */
+    --bg-light: #f48b9a;
+    --bg-header-light: #7a2238;
+    --bg-card-light: rgba(255, 255, 255, 0.25);
+    --text-light: #ffffff;
+    --text-dark-light: #2b0812;
+    --accent-light: #ffffff;
+    --btn-bg-light: #7a2238;
+
+    /* Modo Escuro (Roxo #17072b e Amarelo #ffef3e) */
+    --bg-dark: #17072b;
+    --bg-header-dark: #0d031a;
+    --bg-card-dark: rgba(35, 13, 61, 0.85);
+    --text-dark: #ffffff;
+    --accent-dark: #ffef3e;
+    --btn-bg-dark: #ffef3e;
+
+    --transition-speed: 0.4s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+}
+
+*::selection {
+    background: #ffffff;
+    color: #000000;
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg-light);
+    font-family: 'Cambria', 'Libre Baskerville', serif;
+    color: var(--text-light);
+    transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+section {
+    min-height: 100vh;
+    padding: 10rem 9% 4rem;
+}
+
+/* ==========================================================================
+   2. TÍTULOS E TEXTOS DE CABEÇALHO
+   ========================================================================== */
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header .title {
+    margin-bottom: 0.8rem;
+}
+
+.title {
+    font-size: 4.8rem;
+    font-family: 'Merienda', cursive, serif;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.hero-title .top-text {
+    font-family: 'Cambria', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-title .magic-text,
+.title .magic-text {
+    font-family: 'Merienda', 'Lobster Two', cursive;
+    font-size: 7.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #ffe3e8 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+    line-height: 1.2;
+}
+
+.subtitle-phrase {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.95);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   3. BOTÕES GERAIS
+   ========================================================================== */
+.btn, .bc-btn, .btn-edit-profile, .btn-new-page, .btn-save-journal, 
+.btn-delete-journal, .btn-refresh-affirmations, .btn-save-profile, .btn-cancel {
+    margin-top: 1.5rem;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1.2rem 2.8rem;
+    border-radius: 3rem;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ffffff;
+    background: var(--btn-bg-light);
+    overflow: hidden;
+    box-shadow: 0.4rem 0.6rem 1.5rem rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn span, .bc-btn span {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.2);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transition: top var(--transition-speed) ease;
+}
+
+.btn:hover, .bc-btn:hover, .btn-edit-profile:hover, 
+.btn-save-journal:hover, .btn-refresh-affirmations:hover, .btn-save-profile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover span, .bc-btn:hover span {
+    top: 0;
+}
+
+.btn-delete-journal {
+    background: #a82338;
+}
+
+.btn-delete-journal:hover {
+    background: #851a2b;
+}
+
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    margin-top: 0;
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.btn-save-profile {
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   4. CABEÇALHO (HEADER, NAVBAR & SEARCH)
+   ========================================================================== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--bg-header-light);
+    padding: 1.5rem 9%;
+    padding-right: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: background var(--transition-speed) ease;
+}
+
+header .estrela-logo {
+    font-size: 3.2rem;
+    color: #ffffff;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+header .navbar a {
+    display: inline-block;
+    font-size: 1.6rem;
+    color: #ffffff;
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: color var(--transition-speed) ease;
+}
+
+header .navbar a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffffff;
+    transition: width var(--transition-speed) ease;
+}
+
+header .navbar a:hover::after {
+    width: 100%;
+}
+
+header .mode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.8rem;
+    height: 3.8rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+header .mode:hover {
+    transform: scale(1.1);
+}
+
+.search-box {
+    position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    height: 40px;
+    padding: 5px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.search-txt {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0;
+    color: #ffffff;
+    font-size: 1.5rem;
+    width: 0;
+    transition: width 0.5s ease, padding 0.5s ease;
+}
+
+.search-txt::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.search-box:hover .search-txt,
+.search-txt:focus {
+    width: 160px;
+    padding: 0 10px;
+}
+
+.highlight-search {
+    animation: highlight 1.5s ease-in-out;
+}
+
+@keyframes highlight {
+    0% { outline: 4px solid #ffffff; }
+    100% { outline: 0px solid transparent; }
+}
+
+/* ==========================================================================
+   5. SIDEBAR (MENU LATERAL)
+   ========================================================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 0;
+    transition: width 0.5s ease;
+    z-index: 2000;
+}
+
+.sidebar.active {
+    width: 250px;
+}
+
+.sidebar .logo-menu {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+    position: relative;
+}
+
+.sidebar .logo-menu .logo-p {
+    font-size: 2.2rem;
+    font-family: 'Merienda', cursive;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar.active .logo-menu .logo-p {
+    opacity: 1;
+}
+
+.sidebar .logo-menu .toggle-btn {
+    position: absolute;
+    right: 22px;
+    font-size: 2.2rem;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.sidebar .list {
+    margin-top: 2rem;
+}
+
+.list .list-item {
+    list-style: none;
+    width: 100%;
+    height: 50px;
+}
+
+.list .list-item a {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #ffffff;
+    height: 100%;
+    transition: background 0.3s;
+}
+
+.list .list-item a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.list .list-item a i {
+    width: 70px;
+    text-align: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.sidebar .link-name {
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+
+.sidebar.active .link-name {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   6. SEÇÃO PRINCIPAL (HOME)
+   ========================================================================== */
+.home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+}
+
+.home .content {
+    flex: 1;
+}
+
+.home .content p {
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+.home .image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 380px;
+}
+
+.home .image .gatinho,
+.home .image .morcegin {
+    position: absolute;
+    width: 100%;
+    max-width: 350px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.home .image .gatinho {
+    opacity: 1;
+    visibility: visible;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+}
+
+.home .image .morcegin {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sci {
+    position: fixed;
+    bottom: 3rem;
+    left: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 999;
+}
+
+.sci a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background: var(--btn-bg-light);
+    border-radius: 50%;
+    box-shadow: 0.3rem 0.5rem 1rem rgba(0, 0, 0, .2);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.sci a i {
+    font-size: 1.8rem;
+    color: #ffffff;
+}
+
+.sci a:hover {
+    background: #ffffff;
+    transform: translateY(-5px);
+}
+
+.sci a:hover i {
+    color: var(--btn-bg-light);
+}
+
+/* ==========================================================================
+   7. SEÇÃO BARALHO CIGANO (BC)
+   ========================================================================== */
+.bc {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.bc .history-card {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    gap: 4rem;
+    border-radius: 20px;
+    padding: 4rem;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.bc .history-card .container-image {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.bc .history-card .container-image img {
+    width: 100%;
+    max-width: 300px;
+    height: 400px;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.bc .history-card .content {
+    flex: 1;
+}
+
+.bc .sub-title {
+    font-size: 3.2rem;
+    font-family: 'Merienda', cursive;
+    color: #7a2238;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.bc .sub-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 2px;
+}
+
+.bc .history-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.bc-extra-section {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.section-subtitle {
+    font-size: 2.6rem;
+    font-family: 'Merienda', cursive;
+    color: #ffffff;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.cards-grid, .mentors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
+}
+
+.bc-card, .mentor-card {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s;
+}
+
+.bc-card:hover {
+    transform: translateY(-5px);
+}
+
+.bc-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.bc-card h4, .mentor-card h4 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.bc-card p, .mentor-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.mentor-icon {
+    font-size: 3.5rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+.card-link, .mentor-link {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 1.4rem;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.card-link:hover, .mentor-link:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.books-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.books-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.books-list i {
+    font-size: 2.8rem;
+    color: #ffffff;
+    margin-top: 0.3rem;
+}
+
+.books-list strong {
+    font-size: 1.9rem;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.books-list p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   8. PERFIL, DIÁRIO, AFIRMAÇÕES & SUBLIMINAIS
+   ========================================================================== */
+.profile-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 3rem;
+}
+
+.profile-card {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 2rem;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.edit-avatar-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--btn-bg-light);
+    color: #ffffff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 0;
+    padding: 0;
+}
+
+.profile-card h3 {
+    font-size: 2.4rem;
+    color: #ffffff;
+}
+
+.user-handle {
+    font-size: 1.4rem;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.profile-bio {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.info-block {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+}
+
+.info-block h3 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.favorites-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.favorites-list li {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+}
+
+.favorites-list i {
+    font-size: 1.8rem;
+}
+
+/* Modal de Perfil */
+.profile-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 2rem;
+}
+
+.profile-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.profile-modal {
+    background: var(--bg-header-light);
+    width: 100%;
+    max-width: 550px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.profile-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.profile-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.profile-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 1rem;
+}
+
+.profile-modal .modal-header h3 {
+    font-size: 2.2rem;
+    color: #ffffff;
+}
+
+.profile-modal .close-modal-btn {
+    background: transparent;
+    font-size: 2.8rem;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.profile-modal .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.profile-modal label {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+.profile-modal input,
+.profile-modal textarea {
+    width: 100%;
+    padding: 1.2rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-modal input::placeholder,
+.profile-modal textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.profile-modal .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Seção Neville Goddard */
+.ng-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+/* Seção Diário Místico */
+.journal-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    min-height: 500px;
+}
+
+.journal-sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding-right: 2rem;
+}
+
+.journal-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.journal-sidebar-header h3 {
+    font-size: 2.2rem;
+}
+
+.btn-new-page {
+    margin-top: 0;
+    padding: 0.8rem 1.4rem;
+    border-radius: 50%;
+}
+
+.journal-pages-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.journal-pages-list li {
+    padding: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.3s;
+}
+
+.journal-pages-list li.active, 
+.journal-pages-list li:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.journal-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.journal-title-input {
+    background: transparent;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    font-size: 2.8rem;
+    color: #ffffff;
+    font-family: 'Cambria', serif;
+    padding: 0.5rem 0;
+}
+
+.journal-meta {
+    font-size: 1.4rem;
+    opacity: 0.8;
+}
+
+.journal-content-textarea {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-family: 'Arial', sans-serif;
+    resize: none;
+    line-height: 1.6;
+}
+
+.journal-actions {
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* Seção Afirmações */
+.affirmations-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.affirmation-card {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 4rem;
+    text-align: center;
+}
+
+.week-badge {
+    display: inline-block;
+    padding: 0.6rem 1.8rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+}
+
+.affirmation-intro {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+    font-family: 'Arial', sans-serif;
+}
+
+.affirmations-list {
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    padding-left: 2rem;
+}
+
+.affirmations-list li {
+    margin-bottom: 1.5rem;
+}
+
+.shadow-card {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.shadow-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.bad { color: #ffb3b3; }
+.good { color: #ffffff; }
+
+/* Subliminais & Vídeos */
+.subliminals-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.subliminal-category h3 {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.video-card {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-card iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+}
+
+.video-card h4 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.video-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.4rem;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   9. NOTIFICAÇÕES (TOAST) E RODAPÉ
+   ========================================================================== */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #7a2238;
+    color: #ffffff;
+    padding: 1.5rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 4000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.toast-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast-notification i {
+    font-size: 2rem;
+    color: #4cd137;
+}
+
+footer {
+    width: 100%;
+    padding: 3rem;
+    text-align: center;
+}
+
+footer p {
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   10. MODO ESCURO (body.dark-mode)
+   ========================================================================== */
+body.dark-mode {
+    background: var(--bg-dark);
+}
+
+body.dark-mode header {
+    background: var(--bg-header-dark);
+}
+
+body.dark-mode .hero-title .magic-text,
+body.dark-mode .title .magic-text,
+body.dark-mode .home .content h3 span {
+    background: linear-gradient(135deg, #ffffff 0%, #ffef3e 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 239, 62, 0.5));
+}
+
+body.dark-mode .subtitle-phrase {
+    color: #ffef3e;
+}
+
+body.dark-mode header .mode {
+    background: var(--accent-dark);
+    color: #000000;
+}
+
+body.dark-mode .btn,
+body.dark-mode .bc-btn,
+body.dark-mode .btn-edit-profile,
+body.dark-mode .btn-save-journal,
+body.dark-mode .btn-new-page,
+body.dark-mode .btn-refresh-affirmations,
+body.dark-mode .btn-save-profile,
+body.dark-mode .edit-avatar-btn {
+    background: var(--btn-bg-dark);
+    color: #000000;
+}
+
+body.dark-mode .btn span,
+body.dark-mode .bc-btn span {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .sci a {
+    background: var(--accent-dark);
+}
+
+body.dark-mode .sci a i {
+    color: #000000;
+}
+
+body.dark-mode .home .image .gatinho {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.dark-mode .home .image .morcegin {
+    opacity: 1;
+    visibility: visible;
+    filter: drop-shadow(0 0 15px rgba(255, 239, 62, 0.4));
+}
+
+body.dark-mode .bc .history-card,
+body.dark-mode .bc-extra-section,
+body.dark-mode .profile-card,
+body.dark-mode .info-block,
+body.dark-mode .journal-wrapper,
+body.dark-mode .affirmation-card {
+    background: var(--bg-card-dark);
+    border-color: rgba(255, 239, 62, 0.3);
+}
+
+body.dark-mode .bc-card,
+body.dark-mode .books-list li,
+body.dark-mode .mentor-card,
+body.dark-mode .favorites-list li,
+body.dark-mode .video-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 239, 62, 0.2);
+}
+
+body.dark-mode .card-link,
+body.dark-mode .mentor-link {
+    background: var(--accent-dark);
+    color: #000000;
+}
+
+body.dark-mode .card-link:hover,
+body.dark-mode .mentor-link:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode .mentor-icon,
+body.dark-mode .books-list i {
+    color: var(--accent-dark);
+}
+
+body.dark-mode .journal-pages-list li.active,
+body.dark-mode .journal-pages-list li:hover {
+    background: rgba(255, 239, 62, 0.15);
+}
+
+body.dark-mode .profile-modal {
+    background: var(--bg-header-dark);
+    border-color: rgba(255, 239, 62, 0.4);
+}
+
+body.dark-mode .profile-modal input,
+body.dark-mode .profile-modal textarea,
+body.dark-mode .journal-content-textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 239, 62, 0.2);
+}
+
+body.dark-mode .toast-notification {
+    background: var(--bg-header-dark);
+    border: 1px solid var(--accent-dark);
+    color: #ffffff;
+}
+
+body.dark-mode .toast-notification i {
+    color: var(--accent-dark);
+}
+
+body.dark-mode .sub-title::after {
+    background: var(--accent-dark);
+}
+
+/* ==========================================================================
+   11. RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 992px) {
+    header {
+        padding: 1.5rem 5%;
+        padding-right: 80px;
+    }
+
+    header .navbar {
+        display: none;
+    }
+
+    section {
+        padding: 8rem 5% 3rem;
+    }
+
+    .home {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 12rem;
+    }
+
+    .profile-container, 
+    .journal-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .journal-sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-right: 0;
+        padding-bottom: 2rem;
+    }
+
+    .bc .history-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bc .sub-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .bc .history-card .container-image {
+        flex: auto;
+    }
+
+    .sci {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 55%;
+    }
+
+    section {
+        padding: 8rem 5% 3rem;
+    }
+
+    .title {
+        font-size: 3.6rem;
+    }
+
+    .search-box:hover .search-txt,
+    .search-txt:focus {
+        width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sci {
+        display: none;
+    }
+}}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg-light);
+    font-family: 'Cambria', 'Libre Baskerville', serif;
+    color: var(--text-light);
+    transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+section {
+    min-height: 100vh;
+    padding: 10rem 9% 4rem;
+}
+
+.title {
+    font-size: 4.8rem;
+    font-family: 'Merienda', cursive, serif;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.magic-text {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.subtitle-phrase {
+    font-size: 1.8rem;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3.5rem;
+    opacity: 0.95;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* ==========================================================================
+   2. BOTÕES GERAIS
+   ========================================================================== */
+.btn, .bc-btn, .btn-edit-profile, .btn-new-page, .btn-save-journal, .btn-delete-journal, .btn-refresh-affirmations, .btn-save-profile, .btn-cancel {
+    margin-top: 1.5rem;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1.2rem 2.8rem;
+    border-radius: 3rem;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ffffff;
+    background: var(--btn-bg-light);
+    overflow: hidden;
+    box-shadow: 0.4rem 0.6rem 1.5rem rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn span, .bc-btn span {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.2);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transition: top var(--transition-speed) ease;
+}
+
+.btn:hover, .bc-btn:hover, .btn-edit-profile:hover, .btn-save-journal:hover, .btn-refresh-affirmations:hover, .btn-save-profile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover span, .bc-btn:hover span {
+    top: 0;
+}
+
+.btn-delete-journal {
+    background: #a82338;
+}
+
+.btn-delete-journal:hover {
+    background: #851a2b;
+}
+
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    margin-top: 0;
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.btn-save-profile {
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   3. CABEÇALHO (HEADER & NAVBAR & SEARCH)
+   ========================================================================== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--bg-header-light);
+    padding: 1.5rem 9%;
+    padding-right: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: background var(--transition-speed) ease;
+}
+
+header .estrela-logo {
+    font-size: 3.2rem;
+    color: #ffffff;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+header .navbar a {
+    display: inline-block;
+    font-size: 1.6rem;
+    color: #ffffff;
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: color var(--transition-speed) ease;
+}
+
+header .navbar a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffffff;
+    transition: width var(--transition-speed) ease;
+}
+
+header .navbar a:hover::after {
+    width: 100%;
+}
+
+/* Botão de Alternar Modo */
+header .mode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.8rem;
+    height: 3.8rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+header .mode:hover {
+    transform: scale(1.1);
+}
+
+/* Caixa de Busca */
+.search-box {
+    position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    height: 40px;
+    padding: 5px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.search-txt {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0;
+    color: #ffffff;
+    font-size: 1.5rem;
+    width: 0;
+    transition: width 0.5s ease, padding 0.5s ease;
+}
+
+.search-txt::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.search-box:hover .search-txt,
+.search-txt:focus {
+    width: 160px;
+    padding: 0 10px;
+}
+
+.highlight-search {
+    animation: highlight 1.5s ease-in-out;
+}
+
+@keyframes highlight {
+    0% { outline: 4px solid #ffffff; }
+    100% { outline: 0px solid transparent; }
+}
+
+/* ==========================================================================
+   4. SIDEBAR (MENU LATERAL)
+   ========================================================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 0;
+    transition: width 0.5s ease;
+    z-index: 2000;
+}
+
+.sidebar.active {
+    width: 250px;
+}
+
+.sidebar .logo-menu {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+    position: relative;
+}
+
+.sidebar .logo-menu .logo-p {
+    font-size: 2.2rem;
+    font-family: 'Merienda', cursive;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar.active .logo-menu .logo-p {
+    opacity: 1;
+}
+
+.sidebar .logo-menu .toggle-btn {
+    position: absolute;
+    right: 22px;
+    font-size: 2.2rem;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.sidebar .list {
+    margin-top: 2rem;
+}
+
+.list .list-item {
+    list-style: none;
+    width: 100%;
+    height: 50px;
+}
+
+.list .list-item a {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #ffffff;
+    height: 100%;
+    transition: background 0.3s;
+}
+
+.list .list-item a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.list .list-item a i {
+    width: 70px;
+    text-align: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.sidebar .link-name {
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+
+.sidebar.active .link-name {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   5. SEÇÃO PRINCIPAL (HOME)
+   ========================================================================== */
+.home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+}
+
+.home .content {
+    flex: 1;
+}
+
+.home .hero-title {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.home .hero-title .top-text {
+    font-size: 2.8rem;
+    font-family: 'Merienda', cursive;
+    color: #ffffff;
+}
+
+.home .hero-title .magic-text {
+    font-size: 5.5rem;
+    font-family: 'Mystery Quest', cursive;
+    color: #ffffff;
+}
+
+.home .content p {
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+.home .image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 380px;
+}
+
+.home .image .gatinho,
+.home .image .morcegin {
+    position: absolute;
+    width: 100%;
+    max-width: 350px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.home .image .gatinho {
+    opacity: 1;
+    visibility: visible;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+}
+
+.home .image .morcegin {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Redes Sociais Flutuantes */
+.sci {
+    position: fixed;
+    bottom: 3rem;
+    left: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 999;
+}
+
+.sci a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background: var(--btn-bg-light);
+    border-radius: 50%;
+    box-shadow: 0.3rem 0.5rem 1rem rgba(0, 0, 0, .2);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.sci a i {
+    font-size: 1.8rem;
+    color: #ffffff;
+}
+
+.sci a:hover {
+    background: #ffffff;
+    transform: translateY(-5px);
+}
+
+.sci a:hover i {
+    color: var(--btn-bg-light);
+}
+
+/* ==========================================================================
+   6. SEÇÃO BARALHO CIGANO (BC)
+   ========================================================================== */
+.bc {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.bc .history-card {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    gap: 4rem;
+    border-radius: 20px;
+    padding: 4rem;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.bc .history-card .container-image {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.bc .history-card .container-image img {
+    width: 100%;
+    max-width: 300px;
+    height: 400px;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.bc .history-card .content {
+    flex: 1;
+}
+
+.bc .sub-title {
+    font-size: 3.2rem;
+    font-family: 'Merienda', cursive;
+    color: #7a2238;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.bc .sub-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 2px;
+}
+
+.bc .history-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.bc-extra-section {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.section-subtitle {
+    font-size: 2.6rem;
+    font-family: 'Merienda', cursive;
+    color: #ffffff;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+/* Grids e Listas */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
+}
+
+.bc-card {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s;
+}
+
+.bc-card:hover {
+    transform: translateY(-5px);
+}
+
+.bc-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.bc-card h4 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.bc-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.card-link, .mentor-link {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 1.4rem;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.card-link:hover, .mentor-link:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.books-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.books-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.books-list i {
+    font-size: 2.8rem;
+    color: #ffffff;
+    margin-top: 0.3rem;
+}
+
+.books-list strong {
+    font-size: 1.9rem;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.books-list p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.mentors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
+}
+
+.mentor-card {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mentor-icon {
+    font-size: 3.5rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+.mentor-card h4 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.mentor-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+/* ==========================================================================
+   7. SEÇÕES DE FUNCIONALIDADES (CONTA & PERFIL)
+   ========================================================================== */
+.profile-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 3rem;
+}
+
+.profile-card {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 2rem;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.edit-avatar-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--btn-bg-light);
+    color: #ffffff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 0;
+    padding: 0;
+}
+
+.profile-card h3 {
+    font-size: 2.4rem;
+    color: #ffffff;
+}
+
+.user-handle {
+    font-size: 1.4rem;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.profile-bio {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* ==========================================================================
+   7. SEÇÕES DE FUNCIONALIDADES (CONTINUAÇÃO)
+   ========================================================================== */
+
+/* --- BLOCOS DE INFORMAÇÃO E FAVORITOS --- */
+.info-block {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+}
+
+.info-block h3 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.favorites-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.favorites-list li {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+}
+
+.favorites-list i {
+    font-size: 1.8rem;
+}
+
+/* --- MODAL DE EDIÇÃO DE PERFIL --- */
+.profile-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 2rem;
+}
+
+.profile-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.profile-modal {
+    background: var(--bg-header-light);
+    width: 100%;
+    max-width: 550px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.profile-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.profile-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.profile-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 1rem;
+}
+
+.profile-modal .modal-header h3 {
+    font-size: 2.2rem;
+    color: #ffffff;
+}
+
+.profile-modal .close-modal-btn {
+    background: transparent;
+    font-size: 2.8rem;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.profile-modal .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.profile-modal label {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+.profile-modal input,
+.profile-modal textarea {
+    width: 100%;
+    padding: 1.2rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-modal input::placeholder,
+.profile-modal textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.profile-modal .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* --- SEÇÃO NEVILLE GODDARD --- */
+.ng-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+/* --- SEÇÃO DIÁRIO MÍSTICO --- */
+.journal-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    min-height: 500px;
+}
+
+.journal-sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding-right: 2rem;
+}
+
+.journal-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.journal-sidebar-header h3 {
+    font-size: 2.2rem;
+}
+
+.btn-new-page {
+    margin-top: 0;
+    padding: 0.8rem 1.4rem;
+    border-radius: 50%;
+}
+
+.journal-pages-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.journal-pages-list li {
+    padding: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.3s;
+}
+
+.journal-pages-list li.active, 
+.journal-pages-list li:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.journal-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.journal-title-input {
+    background: transparent;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    font-size: 2.8rem;
+    color: #ffffff;
+    font-family: 'Cambria', serif;
+    padding: 0.5rem 0;
+}
+
+.journal-meta {
+    font-size: 1.4rem;
+    opacity: 0.8;
+}
+
+.journal-content-textarea {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-family: 'Arial', sans-serif;
+    resize: none;
+    line-height: 1.6;
+}
+
+.journal-actions {
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* --- SEÇÃO AFIRMAÇÕES --- */
+.affirmations-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.affirmation-card {
+    background: var(--bg-card-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 4rem;
+    text-align: center;
+}
+
+.week-badge {
+    display: inline-block;
+    padding: 0.6rem 1.8rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+}
+
+.affirmation-intro {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+    font-family: 'Arial', sans-serif;
+}
+
+.affirmations-list {
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    padding-left: 2rem;
+}
+
+.affirmations-list li {
+    margin-bottom: 1.5rem;
+}
+
+.shadow-card {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.shadow-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.bad {
+    color: #ffb3b3;
+}
+
+.good {
+    color: #ffffff;
+}
+
+/* --- SEÇÃO SUBLIMINAIS & VÍDEOS --- */
+.subliminals-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.subliminal-category h3 {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.video-card {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-card iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+}
+
+.video-card h4 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.video-card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.4rem;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   8. NOTIFICAÇÕES (TOAST) E RODAPÉ
+   ========================================================================== */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #7a2238;
+    color: #ffffff;
+    padding: 1.5rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 4000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.toast-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast-notification i {
+    font-size: 2rem;
+    color: #4cd137;
+}
+
+footer {
+    width: 100%;
+    padding: 3rem;
+    text-align: center;
+}
+
+footer p {
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   9. MODO ESCURO (body.dark-mode)
+   ========================================================================== */
+body.dark-mode {
+    background: var(--bg-dark);
+}
+
+body.dark-mode header {
+    background: var(--bg-header-dark);
+}
+
+body.dark-mode .title span,
+body.dark-mode .magic-text,
+body.dark-mode .home .content h3 span {
+    color: var(--accent-dark);
+    text-shadow: 0 0 12px rgba(255, 239, 62, 0.5);
+}
+
+body.dark-mode header .mode {
+    background: var(--accent-dark);
+    color: #000000;
+}
+
+body.dark-mode .btn,
+body.dark-mode .bc-btn,
+body.dark-mode .btn-edit-profile,
+body.dark-mode .btn-save-journal,
+body.dark-mode .btn-new-page,
+body.dark-mode .btn-refresh-affirmations,
+body.dark-mode .btn-save-profile,
+body.dark-mode .edit-avatar-btn {
+    background: var(--btn-bg-dark);
+    color: #000000;
+}
+
+body.dark-mode .btn span,
+body.dark-mode .bc-btn span {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .sci a {
+    background: var(--accent-dark);
+}
+
+body.dark-mode .sci a i {
+    color: #000000;
+}
+
+/* Troca de Mascote na Home */
+body.dark-mode .home .image .gatinho {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.dark-mode .home .image .morcegin {
+    opacity: 1;
+    visibility: visible;
+    filter: drop-shadow(0 0 15px rgba(255, 239, 62, 0.4));
+}
+
+body.dark-mode .bc .history-card,
+body.dark-mode .bc-extra-section,
+body.dark-mode .profile-card,
+body.dark-mode .info-block,
+body.dark-mode .journal-wrapper,
+body.dark-mode .affirmation-card {
+    background: var(--bg-card-dark);
+    border-color: rgba(255, 239, 62, 0.3);
+}
+
+body.dark-mode .journal-pages-list li.active,
+body.dark-mode .journal-pages-list li:hover {
+    background: rgba(255, 239, 62, 0.15);
+}
+
+body.dark-mode .profile-modal {
+    background: var(--bg-header-dark);
+    border-color: rgba(255, 239, 62, 0.4);
+}
+
+body.dark-mode .profile-modal input,
+body.dark-mode .profile-modal textarea,
+body.dark-mode .journal-content-textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 239, 62, 0.2);
+}
+
+body.dark-mode .toast-notification {
+    background: var(--bg-header-dark);
+    border: 1px solid var(--accent-dark);
+    color: #ffffff;
+}
+
+body.dark-mode .toast-notification i {
+    color: var(--accent-dark);
+}
+
+body.dark-mode .sub-title::after {
+    background: var(--accent-dark);
+}
+
+/* ==========================================================================
+   10. RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+
+    header {
+        padding: 1.5rem 5%;
+        padding-right: 80px;
+    }
+
+    section {
+        padding: 8rem 5% 3rem;
+    }
+
+    .profile-container,
+    .journal-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .journal-sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-right: 0;
+        padding-bottom: 2rem;
+    }
+
+    .home {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bc .history-card {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .sci {
+        display: none; /* Oculta redes sociais fixas em telas muito pequenas */
+    }
+
+    .title {
+        font-size: 3.6rem;
+    }
+}
+
+body.dark-mode .bc-card,
+body.dark-mode .books-list li,
+body.dark-mode .mentor-card,
+body.dark-mode .favorites-list li,
+body.dark-mode .video-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 239, 62, 0.2);
+}
+
+body.dark-mode .card-link,
+body.dark-mode .mentor-link {
+    background: var(--accent-dark);
+    color: #000;
+}
+
+body.dark-mode .card-link:hover,
+body.dark-mode .mentor-link:hover {
+    background: #fff;
+    color: #000;
+}
+
+body.dark-mode .mentor-icon,
+body.dark-mode .books-list i {
+    color: var(--accent-dark);
+}
+
+body.dark-mode .home .image .gatinho {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.dark-mode .home .image .morcegin {
+    opacity: 1;
+    visibility: visible;
+    filter: drop-shadow(0 0 15px rgba(255, 239, 62, 0.4));
+}
+
+/* ==========================================================================
+   10. ESTILOS DE TÍTULOS E SUBTÍTULOS ELEGANTES
+   ========================================================================== */
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.hero-title .top-text {
+    font-family: 'Cambria', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-title .magic-text,
+.title .magic-text {
+    font-family: 'Merienda', 'Lobster Two', cursive;
+    font-size: 7.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #ffe3e8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+    line-height: 1.2;
+}
+
+.subtitle-phrase {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header .title {
+    margin-bottom: 0.8rem;
+}
+
+body.dark-mode .hero-title .magic-text,
+body.dark-mode .title .magic-text {
+    background: linear-gradient(135deg, #ffffff 0%, #ffef3e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 239, 62, 0.5));
+}
+
+body.dark-mode .subtitle-phrase {
+    color: #ffef3e;
+}
+
+/* ==========================================================================
+   11. RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 992px) {
+    header .navbar {
+        display: none;
+    }
+    
+    .home {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 12rem;
+    }
+
+    .profile-container, .journal-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .journal-sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-right: 0;
+        padding-bottom: 2rem;
+    }
+
+    .bc .history-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bc .sub-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .bc .history-card .container-image {
+        flex: auto;
+    }
+
+    .sci {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 55%;
+    }
+
+    section {
+        padding: 8rem 5% 3rem;
+    }
+
+    .search-box:hover .search-txt,
+    .search-txt:focus {
+        width: 120px;
+    }
+}
