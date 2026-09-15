@@ -1,5 +1,5 @@
 /* ==========================================================================
-   0. CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE (SUAS CREDENCIAIS REAIS)
+   0. CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
    ========================================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
@@ -45,6 +45,8 @@ const db = getFirestore(app);
 let currentUser = null;
 let isSignUpMode = false;
 
+// CAMINHO PADRÃO DA IMAGEM SEM BARRA NO INÍCIO PARA COMPATIBILIDADE COM GITHUB PAGES
+const DEFAULT_AVATAR = "./img/perfil.jpeg";
 
 /* ==========================================================================
    1. SELEÇÃO DE ELEMENTOS DO DOM
@@ -139,11 +141,7 @@ if (sidebarToggleBtn && sidebar) {
 if (sidebarEditProfileBtn) {
     sidebarEditProfileBtn.addEventListener('click', () => {
         if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
-        if (!currentUser) {
-            openAuthModal();
-        } else {
-            openProfileModal();
-        }
+        openProfileModal();
     });
 }
 
@@ -172,7 +170,7 @@ if (modeToggle) {
 
 
 /* ==========================================================================
-   4. SISTEMA DE BUSCA NO SITE
+   4. SISTEMA DE BUSCA
    ========================================================================== */
 function performSearch() {
     if (!searchInput) return;
@@ -214,7 +212,7 @@ if (searchBtn && searchInput) {
 
 
 /* ==========================================================================
-   5. AUTENTICAÇÃO E CONTA NA NUVEM
+   5. AUTENTICAÇÃO
    ========================================================================== */
 function openAuthModal() {
     if (authModalOverlay) authModalOverlay.classList.add('active');
@@ -230,8 +228,8 @@ if (toggleAuthModeBtn) {
     toggleAuthModeBtn.addEventListener('click', (e) => {
         e.preventDefault();
         isSignUpMode = !isSignUpMode;
-        authModalTitle.textContent = isSignUpMode ? "Criar Conta Mística" : "Acessar Conta Mística";
-        submitAuthBtn.textContent = isSignUpMode ? "Cadastrar" : "Entrar";
+        if (authModalTitle) authModalTitle.textContent = isSignUpMode ? "Criar Conta Mística" : "Acessar Conta Mística";
+        if (submitAuthBtn) submitAuthBtn.textContent = isSignUpMode ? "Cadastrar" : "Entrar";
         toggleAuthModeBtn.textContent = isSignUpMode ? "Já tem conta? Faça Login" : "Não tem conta? Cadastre-se";
     });
 }
@@ -280,7 +278,7 @@ async function saveDefaultUserData(user) {
         name: user.displayName || "Iniciado Místico",
         handle: `@${user.uid.substring(0, 6)}`,
         bio: "Explorando os caminhos da imaginação...",
-        avatar: user.photoURL || "img/perfil.jpeg",
+        avatar: user.photoURL || DEFAULT_AVATAR,
         music: ["Neville Goddard - Palestras", "Frequência 432Hz - Elevação"],
         reading: ["O Sentimento é o Segredo - Neville Goddard"],
         movies: ["Matrix", "Interestelar"]
@@ -295,37 +293,46 @@ onAuthStateChanged(auth, async (user) => {
         await loadJournalCloud(user.uid);
     } else {
         loadUserProfileLocal();
+        loadJournalLocal();
     }
 });
 
 
 /* ==========================================================================
-   6. PERFIL DE USUÁRIO (LOCAL & NUVEM)
+   6. PERFIL DE USUÁRIO
    ========================================================================== */
 async function loadUserDataCloud(uid) {
-    const docRef = doc(db, "users", uid);
-    const snap = await getDoc(docRef);
-    if (snap.exists()) {
-        const data = snap.data();
-        if (profileName) profileName.textContent = data.name;
-        if (profileHandle) profileHandle.textContent = data.handle;
-        if (profileBio) profileBio.textContent = data.bio;
-        if (profileImg && data.avatar) profileImg.src = data.avatar;
+    try {
+        const docRef = doc(db, "users", uid);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+            const data = snap.data();
+            if (profileName) profileName.textContent = data.name;
+            if (profileHandle) profileHandle.textContent = data.handle;
+            if (profileBio) profileBio.textContent = data.bio;
+            if (profileImg) profileImg.src = data.avatar || DEFAULT_AVATAR;
 
-        if (musicList) renderListItems(musicList, data.music || [], 'fa-heart');
-        if (readingList) renderListItems(readingList, data.reading || [], 'fa-bookmark');
-        if (moviesList) renderListItems(moviesList, data.movies || [], 'fa-star');
+            if (musicList) renderListItems(musicList, data.music || [], 'fa-heart');
+            if (readingList) renderListItems(readingList, data.reading || [], 'fa-bookmark');
+            if (moviesList) renderListItems(moviesList, data.movies || [], 'fa-star');
+        }
+    } catch (err) {
+        console.error("Erro ao carregar do Firestore:", err);
+        loadUserProfileLocal();
     }
 }
 
 function loadUserProfileLocal() {
     const savedData = JSON.parse(localStorage.getItem('user_profile_data'));
-    if (!savedData) return;
+    if (!savedData) {
+        if (profileImg) profileImg.src = DEFAULT_AVATAR;
+        return;
+    }
 
     if (savedData.name && profileName) profileName.textContent = savedData.name;
     if (savedData.handle && profileHandle) profileHandle.textContent = savedData.handle;
     if (savedData.bio && profileBio) profileBio.textContent = savedData.bio;
-    if (savedData.avatar && profileImg) profileImg.src = savedData.avatar;
+    if (profileImg) profileImg.src = savedData.avatar || DEFAULT_AVATAR;
 
     if (savedData.music && musicList) renderListItems(musicList, savedData.music, 'fa-heart');
     if (savedData.reading && readingList) renderListItems(readingList, savedData.reading, 'fa-bookmark');
@@ -363,11 +370,8 @@ function getArrayFromListContainer(container) {
     return items;
 }
 
+// PERMITE ABRIR O MODAL MESMO SEM LOGIN (SALVA NO LOCALSTORAGE)
 function openProfileModal() {
-    if (!currentUser) {
-        openAuthModal();
-        return;
-    }
     if (!profileModalOverlay) return;
 
     if (editNameInput && profileName) editNameInput.value = profileName.textContent.trim();
@@ -389,6 +393,28 @@ if (openEditModalBtn) openEditModalBtn.addEventListener('click', openProfileModa
 if (closeModalBtn) closeModalBtn.addEventListener('click', closeProfileModal);
 if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeProfileModal);
 
+// ALTERAR FOTO DE PERFIL LOCALMENTE (BASE64)
+if (changeAvatarBtn && avatarFileInput) {
+    changeAvatarBtn.addEventListener('click', () => avatarFileInput.click());
+}
+
+if (avatarFileInput && profileImg) {
+    avatarFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+                showToast("A imagem deve ter no máximo 2MB!");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                profileImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
 if (editProfileForm) {
     editProfileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -405,19 +431,26 @@ if (editProfileForm) {
             name: newName,
             handle: newHandle.startsWith('@') ? newHandle : `@${newHandle}`,
             bio: newBio,
-            avatar: profileImg ? profileImg.src : '',
+            avatar: profileImg ? profileImg.src : DEFAULT_AVATAR,
             music: musicArr,
             reading: readingArr,
             movies: moviesArr
         };
 
         if (currentUser) {
-            await setDoc(doc(db, "users", currentUser.uid), profileData, { merge: true });
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), profileData, { merge: true });
+                await loadUserDataCloud(currentUser.uid);
+            } catch (err) {
+                console.error("Erro ao salvar no Firebase, salvando localmente:", err);
+                localStorage.setItem('user_profile_data', JSON.stringify(profileData));
+                loadUserProfileLocal();
+            }
         } else {
             localStorage.setItem('user_profile_data', JSON.stringify(profileData));
+            loadUserProfileLocal();
         }
 
-        loadUserProfileLocal();
         closeProfileModal();
         showToast("Perfil atualizado com sucesso!");
     });
@@ -425,7 +458,7 @@ if (editProfileForm) {
 
 
 /* ==========================================================================
-   7. DIÁRIO MÍSTICO NA NUVEM
+   7. DIÁRIO MÍSTICO
    ========================================================================== */
 let journalEntries = [];
 let activePageIndex = 0;
@@ -438,14 +471,28 @@ function updateJournalDate() {
 }
 
 async function loadJournalCloud(uid) {
-    const journalRef = doc(db, "journals", uid);
-    const snap = await getDoc(journalRef);
+    try {
+        const journalRef = doc(db, "journals", uid);
+        const snap = await getDoc(journalRef);
 
-    if (snap.exists()) {
-        journalEntries = snap.data().entries || [];
+        if (snap.exists()) {
+            journalEntries = snap.data().entries || [];
+        } else {
+            journalEntries = [{ title: "Minha Primeira Leitura", content: "Senti uma conexão mágica hoje..." }];
+            await setDoc(journalRef, { entries: journalEntries });
+        }
+        loadJournalEntry(0);
+    } catch (err) {
+        loadJournalLocal();
+    }
+}
+
+function loadJournalLocal() {
+    const savedJournal = JSON.parse(localStorage.getItem('mystic_journal'));
+    if (savedJournal && savedJournal.length > 0) {
+        journalEntries = savedJournal;
     } else {
         journalEntries = [{ title: "Minha Primeira Leitura", content: "Senti uma conexão mágica hoje..." }];
-        await setDoc(journalRef, { entries: journalEntries });
     }
     loadJournalEntry(0);
 }
@@ -474,9 +521,14 @@ function loadJournalEntry(index) {
 
 if (btnSaveJournal) {
     btnSaveJournal.addEventListener('click', async () => {
+        if (journalEntries.length === 0) {
+            journalEntries.push({ title: "", content: "" });
+            activePageIndex = 0;
+        }
+
         journalEntries[activePageIndex] = {
-            title: journalTitleInput.value.trim() || "Página Sem Título",
-            content: journalContentTextarea.value.trim() || ""
+            title: journalTitleInput ? journalTitleInput.value.trim() || "Página Sem Título" : "Página Sem Título",
+            content: journalContentTextarea ? journalContentTextarea.value.trim() : ""
         };
 
         if (currentUser) {
@@ -519,7 +571,7 @@ if (btnDeleteJournal) {
 
 
 /* ==========================================================================
-   8. COMENTÁRIOS E AÇÕES DA COMUNIDADE
+   8. COMENTÁRIOS DA COMUNIDADE
    ========================================================================== */
 if (postCommentBtn) {
     postCommentBtn.addEventListener('click', async () => {
@@ -536,7 +588,7 @@ if (postCommentBtn) {
             await addDoc(collection(db, "comments"), {
                 authorId: currentUser.uid,
                 authorName: profileName ? profileName.textContent : "Místico",
-                authorAvatar: profileImg ? profileImg.src : "img/perfil.jpeg",
+                authorAvatar: profileImg ? profileImg.src : DEFAULT_AVATAR,
                 text: text,
                 createdAt: serverTimestamp(),
                 likes: []
@@ -568,7 +620,7 @@ function listenToComments() {
 
             commentCard.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1rem;">
-                    <img src="${data.authorAvatar}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    <img src="${data.authorAvatar || DEFAULT_AVATAR}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                     <div>
                         <strong style="font-size: 1.6rem; color: var(--text-color, #fff);">${data.authorName}</strong>
                     </div>
@@ -603,6 +655,8 @@ function listenToComments() {
 
             commentsList.appendChild(commentCard);
         });
+    }, (err) => {
+        console.warn("Sem permissão ou erro ao carregar comentários:", err);
     });
 }
 
